@@ -10,11 +10,11 @@ def create_checkout_session():
     payment_method_types=['card'],
     line_items=[{
       'price_data': {
-        'currency': 'usd',
+         'currency': 'usd',
         'product_data': {
           'name': 'Deposit',
         },
-        'unit_amount': request.headers['amount'],
+        'unit_amount': 100,
       },
       'quantity': 1,
     }],

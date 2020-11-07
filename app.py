@@ -49,6 +49,7 @@ def check_charge(id):
 
 @app.route('/api/v1/register', methods=["POST"])
 def register():
+    print(request.data)
     x = json.loads(request.get_data())
     login = x["user"]["login"]
     password = x["user"]["password"]

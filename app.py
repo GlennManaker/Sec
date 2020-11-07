@@ -32,7 +32,12 @@ def create_checkout_session():
   )
   return jsonify(id=session.id)
 
-
+@app.route('/api/v1/get_balance/<string:user>')
+def gets_balance(user):
+    dbU = db["users"]
+    x = dbU.find_one({'login': user})
+    print(x)
+    return jsonify({'balance' : x['balance']})
 @app.route('/api/add_balance/<string:user>')
 def add_balance(user):
     dbU = db["users"]

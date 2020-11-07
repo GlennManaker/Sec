@@ -13,6 +13,7 @@ players_money[0] = 0
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
   x = json.loads(request.get_data())
+  print(x)
   session = stripe.checkout.Session.create(
     payment_method_types=['card'],
     line_items=[{
@@ -29,7 +30,6 @@ def create_checkout_session():
     success_url= "https://stripeuseful.herokuapp.com/api/add_balance/" + str(x["login"]),
     cancel_url='https://example.com/cancel',
   )
-
   return jsonify(id=session.id)
 
 

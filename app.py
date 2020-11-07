@@ -49,8 +49,9 @@ def check_charge(id):
 
 @app.route('/api/v1/register', methods=["POST"])
 def register():
-    login = request.get_json()['user']['login']
-    password = request.get_json()['user']['password']
+    x = json.loads(request.get_data())
+    login = x["user"]["login"]
+    password = x["user"]["password"]
     dbU = db["users"]
     dbU.insert_many([{"login" : str(login), "password" : str(password), "balance" : 0}])
     return {'complete' : 'ok'}

@@ -6,7 +6,7 @@ from pymongo import MongoClient
 stripe.api_key = "sk_test_51HkaJuH96yTZyVZDxrA8lRaKERxn6xdtYSLcWBBz22z1HxHGqqDFnhcsp61nFd8Kb0ok25yn1wDK9mULku7mWwJM008yNCeH9x"
 app = Flask(__name__)
 client = MongoClient("mongodb+srv://dbUser:t9rd4hMMgdN9rDNc@cluster0.31idn.mongodb.net/Finance?retryWrites=true&w=majority")
-db = client.users
+db = client["users"]
 CORS(app)
 players_money = dict()
 players_money[0] = 0
@@ -49,10 +49,10 @@ def check_charge(id):
 
 @app.route('/api/v1/register', methods=["POST"])
 def register():
-    login = request.headers['user']['login']
-    password = request.headers['user']['password']
-    dbU =  db['users']
-    dbU.inset_one({'login' : login, 'password' : password})
+    login = request.get_json()['user']['login']
+    password = request.get_json()['user']['password']
+    dbU = db["users"]
+    dbU.insert_many([{"login" : str(login), "password" : str(password), "balance" : 0}])
     return {'complete' : 'ok'}
 
 

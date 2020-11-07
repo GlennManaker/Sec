@@ -51,8 +51,8 @@ def check_charge(id):
 def register():
     print(request.data)
     x = json.loads(request.get_data())
-    login = x["user"]["login"]
-    password = x["user"]["password"]
+    login = x["login"]
+    password = x["password"]
     dbU = db["users"]
     dbU.insert_many([{"login" : str(login), "password" : str(password), "balance" : 0}])
     return {'complete' : 'ok'}

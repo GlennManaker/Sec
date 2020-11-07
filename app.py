@@ -36,7 +36,7 @@ def create_checkout_session():
 @app.route('/api/add_balance/<string:user>')
 def add_balance(user):
     dbU = db["users"]
-    x = dbU.find_one({'login' : login})
+    x = dbU.find_one({'login' : user})
     dbU.update_one({"login": user}, {"$set": {"balance": x['balance'] + 500}})
     return 'true'
 @app.route('/api/retrieve-charge/<string:id>')

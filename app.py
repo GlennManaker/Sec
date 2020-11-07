@@ -26,7 +26,7 @@ def create_checkout_session():
       'quantity': 1,
     }],
     mode='payment',
-    success_url= "https://stripeuseful.herokuapp.com/api/add_balance/" + x['login'],
+    success_url= "https://stripeuseful.herokuapp.com/api/add_balance/" + str(x["login"]),
     cancel_url='https://example.com/cancel',
   )
 

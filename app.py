@@ -1,8 +1,11 @@
 import stripe
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Blueprint
 from flask_cors import CORS
 import json
+from routes.registration import registration
 from pymongo import MongoClient
+
+
 stripe.api_key = "sk_test_51HkaJuH96yTZyVZDxrA8lRaKERxn6xdtYSLcWBBz22z1HxHGqqDFnhcsp61nFd8Kb0ok25yn1wDK9mULku7mWwJM008yNCeH9x"
 app = Flask(__name__)
 client = MongoClient("mongodb+srv://dbUser:t9rd4hMMgdN9rDNc@cluster0.31idn.mongodb.net/Finance?retryWrites=true&w=majority")
@@ -10,6 +13,7 @@ db = client["users"]
 CORS(app)
 players_money = dict()
 players_money[0] = 0
+app.register_blueprint(registration)
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
   x = json.loads(request.get_data())

@@ -1,4 +1,6 @@
-from flask import request, jsonify, Blueprint, make_response
+import datetime
+import jwt
+from flask import request, jsonify, Blueprint, make_response, current_app
 import json, hashlib
 from passlib.hash import sha256_crypt
 import app
@@ -22,7 +24,12 @@ def register_user():
         if not data or not data['username'] or not data['password']:
             return make_response('Could not register', 400, {'WWW-Authenticate' : 'Basic realm="Unregistered"'})
         user = User(data)
-        app.db['users'].insert_one(user.toDict())
-        return {'message' : 'new user'}
+        _id = app.db['users'].insert_one(user.toDict()).inserted_id
+        print(str(_id))
+        token = jwt.encode({'_id': str(_id), 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30)},
+                           current_app.config['SECRET_KEY'])
+        return {
+            'message' : 'new user',
+            'token' :  token.decode('UTF-8') }
     except:
         return make_response('Could not register', 400, {'WWW-Authenticate': 'Basic realm="Unregistered"'})

@@ -2,8 +2,10 @@ from flask import request, jsonify
 import json
 import stripe
 from routes.API_payments import bp_payment
+from routes.auth import token_required
 @bp_payment.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():
+@token_required
+def create_checkout_session(current_user):
     x: object = json.loads(request.get_data())
     print(x)
     session = stripe.checkout.Session.create(
@@ -12,7 +14,7 @@ def create_checkout_session():
             'price_data': {
                 'currency': 'usd',
                 'product_data': {
-                    'name': 'Deposit',
+                    'name': 'Deposit for ' + current_user,
                 },
                 'unit_amount': int(x['amount']),
             },

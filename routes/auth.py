@@ -22,7 +22,7 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
-@auth.route('/check_token')
+@auth.route('/check_token', methods = ["GET"])
 @token_required
 def check_token(current_user):
     return 'True token for ' + current_user['username']

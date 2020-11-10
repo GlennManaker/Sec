@@ -27,7 +27,7 @@ def token_required(f):
 def check_token(current_user):
     return 'True token for ' + current_user['username']
 
-@auth.route('/login')
+@auth.route('/login', methods = ["POST"])
 def login():
     auth = json.loads(request.get_data())
     if not auth or not auth['username'] or not auth['password']:

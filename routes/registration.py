@@ -1,9 +1,9 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, make_response
 import json, hashlib
 from passlib.hash import sha256_crypt
 import app
 
-registration = Blueprint('registration', __name__, url_prefix='/api/v1')
+bp_registration = Blueprint('bp_registration', __name__, url_prefix='/api/v1')
 class User:
     def __init__(self, data):
         self.username = data['username']
@@ -15,9 +15,14 @@ class User:
         temp = {'username':self.username,
         'email' : self.email, 'password' : self.hash_pass, 'balance' : self.balance}
         return temp
-@registration.route('/register/user', methods=["POST"])
+@bp_registration.route('/register/user', methods=["POST"])
 def register_user():
-    data = json.loads(request.get_data())
-    user = User(data)
-    app.db['users'].insert_one(user.toDict())
-    return {'message' : 'new user'}
+    try:
+        data = json.loads(request.get_data())
+        if not data or not data['username'] or not data['password']:
+            return make_response('Could not register', 400, {'WWW-Authenticate' : 'Basic realm="Unregistered"'})
+        user = User(data)
+        app.db['users'].insert_one(user.toDict())
+        return {'message' : 'new user'}
+    except:
+        return make_response('Could not register', 400, {'WWW-Authenticate': 'Basic realm="Unregistered"'})

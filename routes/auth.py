@@ -5,7 +5,7 @@ import datetime, json
 import jwt
 from functools import wraps
 import app
-auth = Blueprint('auth', __name__, url_prefix='/api/v1')
+bp_auth = Blueprint('bp_auth', __name__, url_prefix='/api/v1')
 def token_required(f):
     def decorated(*args, **kwargs):
         token = None
@@ -22,12 +22,12 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
-@auth.route('/check_token', methods = ["GET"])
+@bp_auth.route('/check_token', methods = ["GET"])
 @token_required
 def check_token(current_user):
     return 'True token for ' + current_user['username']
 
-@auth.route('/login', methods = ["POST"])
+@bp_auth.route('/login', methods = ["POST"])
 def login():
     auth = json.loads(request.get_data())
     if not auth or not auth['username'] or not auth['password']:

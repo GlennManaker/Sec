@@ -2,8 +2,6 @@ import stripe
 from flask import Flask, jsonify, request, Blueprint
 from flask_cors import CORS
 import json
-from routes.registration import registration
-from routes.auth import auth
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
@@ -17,43 +15,15 @@ db = client["users"]
 CORS(app)
 players_money = dict()
 players_money[0] = 0
-app.register_blueprint(registration)
-app.register_blueprint(auth)
-# @app.route('/create-checkout-session', methods=['POST'])
-# def create_checkout_session():
-#   x = json.loads(request.get_data())
-#   print(x)
-#   session = stripe.checkout.Session.create(
-#     payment_method_types=['card'],
-#     line_items=[{
-#       'price_data': {
-#          'currency': 'usd',
-#         'product_data': {
-#           'name': 'Deposit',
-#         },
-#         'unit_amount': 500,
-#       },
-#       'quantity': 1,
-#     }],
-#     mode='payment',
-#     success_url= "https://stripeuseful.herokuapp.com/api/add_balance/" + str(x["login"]),
-#     cancel_url='https://example.com/cancel',
-#   )
-#   return jsonify(id=session.id)
-#
-# @app.route('/api/add_balance/<string:user>')
-# def add_balance(user):
-#     dbU = db["users"]
-#     x = dbU.find_one({'login' : user})
-#     dbU.update_one({"login": user}, {"$set": {"balance": x['balance'] + 500}})
-#     return 'true'
-@app.route('/api/retrieve-charge/<string:id>')
-def retrieve_charge(id):
-    return stripe.Charge.retrieve(id)
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
 
+from routes.registration import bp_registration
+app.register_blueprint(bp_registration)
+
+from routes.auth import bp_auth
+app.register_blueprint(bp_auth)
+
+from routes.API_payments import bp_payment
+app.register_blueprint(bp_payment)
 
 
 

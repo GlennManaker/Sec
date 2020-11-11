@@ -16,7 +16,8 @@ class Payment:
 def get_webhook():
         pay = json.loads(request.get_data())
         useremail = pay['data']['object']['charges']['data'][0]['billing_details']['email']
-        # print(pay['data']['object']['charges']['data'][0]['billing_details']['email'])
+        print(pay['data']['object']['charges']['data'][0]['billing_details']['email'])
+        print(useremail)
         if (pay['type'] == 'payment_intent.succeeded'):
             # payment = Payment(pay['data'])
             user = app.db['payments'].find_one({'email' : useremail})

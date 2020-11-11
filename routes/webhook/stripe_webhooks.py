@@ -14,12 +14,9 @@ class Payment:
         return {'username' : self.username, 'time' : self.time, 'amount' : self.amount, 'id' : self.id}
 @bps_webhook.route('/webhook', methods = ["POST"])
 def get_webhook():
-    try:
         pay = json.loads(request.get_data())
         if (pay['type'] == 'payment_intent.succeeded'):
             payment = Payment(pay['data'])
             app.db['payments'].insert_one(payment.toDict())
             app.db['payments'].update({"username" : payment.username}, {"$inc" : {"amount": 500}})
         return Response(status=200)
-    except:
-        return Response(status=500)

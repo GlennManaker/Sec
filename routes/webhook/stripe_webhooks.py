@@ -16,13 +16,10 @@ class Payment:
 def get_webhook():
         pay = json.loads(request.get_data())
         useremail = pay['data']['object']['charges']['data'][0]['billing_details']['email']
-        print(pay['data']['object']['charges']['data'][0]['billing_details']['email'])
-        print(useremail)
         if (pay['type'] == 'payment_intent.succeeded'):
             # payment = Payment(pay['data'])
             user = app.db['users'].find_one({'email' : useremail})
-            print(user)
             app.db['payments'].insert_one({'id' : pay['data']['object']['id'], 'time': pay['created'], 'amount':
                                            pay['data']['object']['amount'], 'username': user['username']})
-            app.db['users'].update_one({"username" : user['username']}, {"$inc" : {"amount": int(pay['data']['object']['amount'])}})
+            app.db['users'].update_one({"username" : user['username']}, {"$inc" : {"balance": int(pay['data']['object']['amount'])}})
         return Response(status=200)

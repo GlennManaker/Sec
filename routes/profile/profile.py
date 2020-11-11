@@ -13,7 +13,7 @@ def get_profile(current_user):
     user = app.db['users'].find_one({'username' : current_user['username']})
     return jsonify({'username' : user['username'] , 'email' : user['email'] , 'balance' : user['balance']})
 
-@bp_profile.route('/history/deposits', methods=["GET"])
+@bp_profile.route('/history/transactions', methods=["GET"])
 @token_required
 def get_deposits(current_user):
     deposits = app.db['payments'].find({'username' : current_user['username']})

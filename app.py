@@ -28,6 +28,9 @@ app.register_blueprint(bp_payment)
 from routes.profile import bp_profile
 app.register_blueprint(bp_profile)
 
+from routes.webhook import bps_webhook
+app.register_blueprint(bps_webhook)
+
 
 if __name__ == '__main__':
     app.run()

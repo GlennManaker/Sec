@@ -11,7 +11,7 @@ class User:
         self.username = data['username']
         self.email = data['username']
         self.password = data['password']
-        self.balance = 0
+        self.balance = int(0)
         self.hash_pass = sha256_crypt.encrypt(self.password)
     def toDict(self):
         temp = {'username':self.username,

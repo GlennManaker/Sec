@@ -25,7 +25,8 @@ app.register_blueprint(bp_auth)
 from routes.API_payments import bp_payment
 app.register_blueprint(bp_payment)
 
-
+from routes.profile import bp_profile
+app.register_blueprint(bp_profile)
 
 
 if __name__ == '__main__':

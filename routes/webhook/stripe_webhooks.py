@@ -20,7 +20,8 @@ def get_webhook():
         if (pay['type'] == 'payment_intent.succeeded'):
             # payment = Payment(pay['data'])
             user = app.db['payments'].find_one({'email' : useremail})
-            app.db['payments'].insert_one({'id' : pay['data']['object']['id'], 'time' : pay['created'], 'amount':
-                                           pay['data']['object']['amount'],'username': user['username'] })
-            app.db['payments'].update_one({"username" : user['username']}, {"$inc" : {"amount": 500}})
+            print(user)
+            app.db['payments'].insert_one({'id' : pay['data']['object']['id'], 'time': pay['created'], 'amount':
+                                           pay['data']['object']['amount'], 'username': user['username']})
+            app.db['payments'].update_one({"username" : user['username']}, {"$inc" : {"amount": int(pay['data']['object']['amount'])}})
         return Response(status=200)

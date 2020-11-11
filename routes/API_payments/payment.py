@@ -6,8 +6,8 @@ from routes.auth import token_required
 @bp_payment.route('/create-checkout-session', methods=['POST'])
 @token_required
 def create_checkout_session(current_user):
-    x: object = json.loads(request.get_data())
-    print(x)
+    # x: object = json.loads(request.get_data())
+    # print(x)
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{

@@ -15,7 +15,7 @@ class Payment:
 @bps_webhook.route('/webhook', methods = ["POST"])
 def get_webhook():
         pay = json.loads(request.get_data())
-        print(pay['charges']['data'][0]['billing_details']['email'])
+        print(pay['data']['object']['charges']['data'][0]['billing_details']['email'])
         # if (pay['type'] == 'payment_intent.succeeded'):
         #     payment = Payment(pay['data'])
         #     app.db['payments'].insert_one(payment.toDict())

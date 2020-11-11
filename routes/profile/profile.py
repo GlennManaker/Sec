@@ -12,3 +12,12 @@ from routes.profile import bp_profile
 def get_profile(current_user):
     user = app.db['users'].find_one({'username' : current_user['username']})
     return jsonify({'username' : user['username'] , 'email' : user['email'] , 'balance' : user['balance']})
+
+@bp_profile.route('/history/deposits', methods=["GET"])
+@token_required
+def get_deposits(current_user):
+    deposits = app.db['payments'].find({'username' : current_user['username']})
+    data = []
+    for one in deposits:
+        data.append({'time' : one['time'], 'amount' : one['amount']})
+    return jsonify({'currency' : 'usd', 'data' : data})

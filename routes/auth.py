@@ -7,6 +7,7 @@ from functools import wraps
 import app
 bp_auth = Blueprint('bp_auth', __name__, url_prefix='/api/v1')
 def token_required(f):
+    @wraps(f)
     def decorated(*args, **kwargs):
         token = None
         if 'x-access-token' in request.headers:

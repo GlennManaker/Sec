@@ -10,8 +10,5 @@ from routes.profile import bp_profile
 @bp_profile.route('/profile', methods=["GET"])
 @token_required
 def get_profile(current_user):
-    try:
-        user = app.db['users'].find_one({'username' : current_user['username']})
-        return jsonify({'username' : user['username'] , 'email' : user['email'] , 'balance' : user['balance']})
-    except:
-        return jsonify({'message' : 'Invalid data'})
+    user = app.db['users'].find_one({'username' : current_user['username']})
+    return jsonify({'username' : user['username'] , 'email' : user['email'] , 'balance' : user['balance']})

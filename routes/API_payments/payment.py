@@ -14,7 +14,7 @@ def create_checkout_session(current_user):
             'price_data': {
                 'currency': 'usd',
                 'product_data': {
-                    'name': 'Deposit for ' + current_user,
+                    'name': 'Deposit for ' + current_user['username'],
                 },
                 'unit_amount': int(x['amount']),
             },

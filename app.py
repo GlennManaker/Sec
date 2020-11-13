@@ -31,6 +31,8 @@ app.register_blueprint(bp_profile)
 from routes.webhook import bps_webhook
 app.register_blueprint(bps_webhook)
 
+from routes.porfolio import bp_portfolio
+app.register_blueprint(bp_portfolio)
 
 if __name__ == '__main__':
     app.run()
